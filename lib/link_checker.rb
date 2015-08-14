@@ -71,7 +71,7 @@ class LinkChecker
               # If the redirect is relative we need to build a new uri
               # using the current uri as a base.
               URI.join("#{uri.scheme}://#{uri.host}:#{uri.port}", response['location'])
-            end          
+            end
           return self.check_uri(uri, true)
         else
           return Error.new(:uri_string => uri.to_s, :error => response)
@@ -117,6 +117,7 @@ class LinkChecker
     threads = []
     Anemone.crawl(@target) do |anemone|
       anemone.storage = Anemone::Storage.PStore('link-checker-crawled-pages.pstore')
+      anemone.cookies = @options[:cookies] if @options[:cookies]
       anemone.on_every_page do |crawled_page|
         raise StandardError.new(crawled_page.error) if crawled_page.error
         threads << check_page(crawled_page.body, crawled_page.url.to_s)
@@ -167,7 +168,7 @@ class LinkChecker
       report_results(page_name, results)
     end
   end
-  
+
   # Report the results of scanning one HTML page.
   #
   # @param page_name [String] The name of the page.
