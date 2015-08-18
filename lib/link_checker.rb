@@ -116,7 +116,7 @@ class LinkChecker
   def check_uris_by_crawling
     threads = []
     Anemone.crawl(@target) do |anemone|
-      anemone.storage = Anemone::Storage.PStore('link-checker-crawled-pages.pstore')
+      # anemone.storage = Anemone::Storage.PStore('link-checker-crawled-pages.pstore')
       anemone.cookies = @options[:cookies] if @options[:cookies]
       anemone.on_every_page do |crawled_page|
         raise StandardError.new(crawled_page.error) if crawled_page.error
