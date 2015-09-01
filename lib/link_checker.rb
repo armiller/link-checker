@@ -166,6 +166,7 @@ class LinkChecker
         end
       end
       threads.each {|thread| thread.join }
+      Thread.current["results"] = results
       report_results(page_name, results)
     end
   end
